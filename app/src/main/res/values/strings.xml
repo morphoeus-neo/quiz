@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Quiz</string>
+    <string name="questionLabel">Question</string>
+    <string name="result">RESULTAT</string>
+    <string name="faux">FAUX</string>
+    <string name="vrai">VRAI</string>
 </resources>
