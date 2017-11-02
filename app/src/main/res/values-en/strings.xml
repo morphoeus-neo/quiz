@@ -6,7 +6,7 @@
     <string name="faux">FALSE</string>
     <string name="vrai">TRUE</string>
     <string name="questionText">Question</string>
-    <string name="forward_question">Forward Question</string>
-    <string name="previous_question">Previous_Question</string>
+    <string name="forward_question">Forward</string>
+    <string name="previous_question">Previous</string>
     <string name="questionRatio">.../...</string>
 </resources>

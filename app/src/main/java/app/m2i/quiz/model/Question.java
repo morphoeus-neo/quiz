@@ -19,13 +19,7 @@ public class Question {
     public Question() {
     }
 
-    /**
-     *
-     * @param text
-     * @param id
-     * @param goodAnswer
-     * @param userAnswer
-     */
+
     public Question(String text, UUID id, Boolean goodAnswer, Boolean userAnswer) {
         this.text = text;
         this.id = id;
@@ -37,11 +31,7 @@ public class Question {
         return text;
     }
 
-    /**
-     *
-     * @param text
-     * @param goodAnswer
-     */
+
     public Question(String text, Boolean goodAnswer) {
         this.text = text;
         this.goodAnswer = goodAnswer;
