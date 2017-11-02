@@ -1,12 +1,17 @@
 package app.m2i.quiz;
 import android.app.Activity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import app.m2i.quiz.model.Question;
 
 
@@ -21,6 +26,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button nextButton;
     private Button trueButton;
     private Button falseButton;
+    private String buttonValue;
 
     // Définition des variables globales Text
     private TextView questionTextView;
@@ -36,9 +42,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
     // Définition des variables globales Question
     private Question currentQuestion;
 
+    // Déclaration de la variable globale TextToSpeech
+    TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Instanciation de la classe TextToSpeetch
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            /**
+             * Déclaration d'une classe interne
+             */
+            public void onInit(int status) {
+                // on teste si le status ( argument onInit) est egal a "Succes"
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.setLanguage(Locale.FRENCH);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "La synthèse vocale n'est pas disponible",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -62,10 +89,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Remplissage de la liste de questions
         questionList = new ArrayList<>();
         questionList.add(new Question("Peux-t'on manger du plastique", false));
-        questionList.add(new Question("Est-ce que Maxime est toujours à l'heure", false));
-        questionList.add(new Question("Est-ce Maxime aimes les hommes ???", true));
-        questionList.add(new Question("Est-ce Maxime aimes les femmes ???", true));
-        questionList.add(new Question("Est-ce Maxime mange les hommes ???", true));
+        questionList.add(new Question("Est-ce que Jean Marc a réussi a faire parler Android  ", false));
+        questionList.add(new Question("Est-ce que  ???", true));
+        questionList.add(new Question("Est-ce que  ???", true));
+        questionList.add(new Question("Est-ce que  ???", true));
 
 
         // Restauration de l'état de l'application
@@ -89,6 +116,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String navigationText = (currentQuestionIndex + 1) + " / " + questionList.size();
         navTextView.setText(navigationText);
 
+        // Lecture de la question avec la synthèse vocale
+        textToSpeech.speak(currentQuestion.getText(), TextToSpeech.QUEUE_FLUSH, null);
+
         // Affichage du résultat de la réponse
         showQuestionResult();
 
@@ -106,11 +136,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * Gestion de l'action des boutons
      */
     public void onClick(View v) {
+
+
         if (v == falseButton) {
             checkAnswer(false);
+            buttonValue = "Le bouton Faux";
 
         } else if (v == trueButton) {
             checkAnswer(true);
+            buttonValue = "Le bouton Vrai";
+
         } else if (v == prevButton) {
 
             goToPreviousQuestion();
@@ -146,6 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         currentQuestion.setUserAnswer(userAnswer);
         showQuestionResult();
+
     }
 
 
@@ -155,16 +191,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Boolean userQuestionResult;
         userQuestionResult = currentQuestion.getUserAnswer();
 
+
         // Condition d'affichage du message
         if (userQuestionResult == null) {
             message = "";
         } else if (userQuestionResult == currentQuestion.getGoodAnswer()) {
-            message = "Bonne réponse";
+            message = buttonValue + " Es la Bonne réponse";
+
+            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null);
         } else {
-            message = "Mauvaise réponse";
+            message = buttonValue + " Es la Mauvaise réponse";
+
+            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null);
         }
         // Affichage du message
         resultMessage.setText(message);
+
+
     }
 
 

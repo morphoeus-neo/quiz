@@ -9,23 +9,25 @@ import java.util.UUID;
 
 public class Question {
 
-    String text;
-    UUID id;
-    Boolean goodAnswer;
-    Boolean userAnswer;
+    private String text;
+    private UUID id;
+    private Boolean goodAnswer;
+    private Boolean userAnswer;
 
 
-
+    // Constructeur Vide
     public Question() {
     }
 
 
+    // constructeur complet
     public Question(String text, UUID id, Boolean goodAnswer, Boolean userAnswer) {
         this.text = text;
         this.id = id;
         this.goodAnswer = goodAnswer;
         this.userAnswer = userAnswer;
     }
+
 
     public String getText() {
         return text;
@@ -38,6 +40,8 @@ public class Question {
         // Lorsque je fait appel a ce constructeur je dois retourner un UUID
         this.id = UUID.randomUUID();
     }
+
+    // Définition des guetteurs et Setteurs
 
     public void setText(String text) {
         this.text = text;
