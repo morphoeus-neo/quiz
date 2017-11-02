@@ -2,7 +2,11 @@
 <resources>
     <string name="app_name">Quiz</string>
     <string name="questionLabel">Question</string>
-    <string name="result">Result</string>
+    <string name="answerResult">AnswerResult</string>
     <string name="faux">FALSE</string>
     <string name="vrai">TRUE</string>
+    <string name="questionText">Question</string>
+    <string name="forward_question">Forward Question</string>
+    <string name="previous_question">Previous_Question</string>
+    <string name="questionRatio">.../...</string>
 </resources>

@@ -1,5 +1,6 @@
 package app.m2i.quiz.model;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -12,6 +13,8 @@ public class Question {
     UUID id;
     Boolean goodAnswer;
     Boolean userAnswer;
+
+
 
     public Question() {
     }
