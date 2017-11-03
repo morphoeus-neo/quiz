@@ -2,11 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="app.m2i.quiz.MainActivity">
 
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:entries="@array/spinner_data"
+        android:spinnerMode="dialog"
+        android:theme="@android:style/Animation" />
 
     <TextView
         android:id="@+id/questionLabel"
@@ -32,12 +41,12 @@
             android:layout_weight="1"
             android:background="@android:color/holo_green_light"
             android:text="@string/vrai"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/falseButton"
-            style="@android:style/Widget.Material.Button.Colored"
+            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

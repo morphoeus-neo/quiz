@@ -1,10 +1,13 @@
 package app.m2i.quiz;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +18,7 @@ import java.util.Locale;
 import app.m2i.quiz.model.Question;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     // Définition de Constante // parcequ'elle est finale de classe // parcequ'elle est static
 
@@ -26,7 +29,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button nextButton;
     private Button trueButton;
     private Button falseButton;
-    private String buttonValue;
+
 
     // Définition des variables globales Text
     private TextView questionTextView;
@@ -45,8 +48,47 @@ public class MainActivity extends Activity implements View.OnClickListener {
     // Déclaration de la variable globale TextToSpeech
     TextToSpeech textToSpeech;
 
+    // Définition du spinner
+    private Spinner questionSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Récupération des text
+        questionTextView = findViewById(R.id.questionLabel);
+        resultMessage = findViewById(R.id.resultLabel);
+        navTextView = findViewById(R.id.questionRatio);
+
+        // Récupération des références aux bouttons
+        trueButton = findViewById(R.id.trueButton);
+        falseButton = findViewById(R.id.falseButton);
+        prevButton = findViewById((R.id.previousButton));
+        nextButton = findViewById(R.id.forwardButton);
+
+        //Référence au widget Spinner
+        questionSpinner = (Spinner) findViewById(R.id.spinner);
+
+        //Gestion de l'évennement sur le Spinner
+        questionSpinner.setOnItemSelectedListener(this);
+
+        // Gestion des evenements sur les boutons
+        trueButton.setOnClickListener(this);
+        falseButton.setOnClickListener(this);
+        prevButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
+
+        // Remplissage de la liste de questions
+        questionList = new ArrayList<>();
+        questionList.add(new Question("Est-ce que l'application a demarré ???", true));
+
+        questionList.add(new Question("Est-ce que Guillaume mange 5 fruits et légumes par jour ???", false));
+        questionList.add(new Question("Est-ce que Guillaume aime la 1ère ???  ", false));
+        questionList.add(new Question("Est-ce que Guillaume passes prendre un café a la fin de sa garde  ???", true));
+        questionList.add(new Question("Est-ce que Guillaume va manger des fillets de harangs ce midi ???", true));
+        questionList.add(new Question("Est-ce que cette application c'est de la merde ???", true));
 
         // Instanciation de la classe TextToSpeetch
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -66,35 +108,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Récupération des text
-        questionTextView = findViewById(R.id.questionLabel);
-        resultMessage = findViewById(R.id.resultLabel);
-        navTextView = findViewById(R.id.questionRatio);
-
-        // Récupération des références aux bouttons
-        trueButton = findViewById(R.id.trueButton);
-        falseButton = findViewById(R.id.falseButton);
-        prevButton = findViewById((R.id.previousButton));
-        nextButton = findViewById(R.id.forwardButton);
-
-        // Gestion des evenements sur les boutons
-        trueButton.setOnClickListener(this);
-        falseButton.setOnClickListener(this);
-        prevButton.setOnClickListener(this);
-        nextButton.setOnClickListener(this);
-
-        // Remplissage de la liste de questions
-        questionList = new ArrayList<>();
-        questionList.add(new Question("Peux-t'on manger du plastique", false));
-        questionList.add(new Question("Est-ce que Jean Marc a réussi a faire parler Android  ", false));
-        questionList.add(new Question("Est-ce que  ???", true));
-        questionList.add(new Question("Est-ce que  ???", true));
-        questionList.add(new Question("Est-ce que  ???", true));
-
-
         // Restauration de l'état de l'application
         // CQI = currentQuestionIndex
         if (savedInstanceState != null) {
@@ -103,6 +116,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // On appelle la question pour son affichage
         showQuestion();
+
+
     }
 
     private void showQuestion() {
@@ -116,8 +131,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String navigationText = (currentQuestionIndex + 1) + " / " + questionList.size();
         navTextView.setText(navigationText);
 
-        // Lecture de la question avec la synthèse vocale
-        textToSpeech.speak(currentQuestion.getText(), TextToSpeech.QUEUE_FLUSH, null);
 
         // Affichage du résultat de la réponse
         showQuestionResult();
@@ -128,6 +141,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         prevButton.setEnabled(currentQuestionIndex > 0);
         nextButton.setEnabled(currentQuestionIndex < questionList.size() - 1);
 
+        // Lecture de la question avec la synthèse vocale
+        textToSpeech.speak(currentQuestion.getText(), TextToSpeech.QUEUE_FLUSH, null);
     }
 
 
@@ -140,21 +155,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         if (v == falseButton) {
             checkAnswer(false);
-            buttonValue = "Le bouton Faux";
-
         } else if (v == trueButton) {
             checkAnswer(true);
-            buttonValue = "Le bouton Vrai";
-
         } else if (v == prevButton) {
-
             goToPreviousQuestion();
         } else if (v == nextButton) {
-
             goToNextQuestion();
         }
-
-
     }
 
     private void goToPreviousQuestion() {
@@ -162,6 +169,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (currentQuestionIndex > 0) {
             prevButton.setEnabled(false);
             currentQuestionIndex--;
+            questionSpinner.setSelection(currentQuestionIndex, true);
             showQuestion();
         }
 
@@ -172,6 +180,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (currentQuestionIndex < questionList.size()) {
             nextButton.setEnabled(false);
             currentQuestionIndex++;
+            questionSpinner.setSelection(currentQuestionIndex, true);
             showQuestion();
         }
     }
@@ -181,9 +190,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         currentQuestion.setUserAnswer(userAnswer);
         showQuestionResult();
-
     }
-
 
     private void showQuestionResult() {
 
@@ -191,18 +198,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Boolean userQuestionResult;
         userQuestionResult = currentQuestion.getUserAnswer();
 
-
         // Condition d'affichage du message
         if (userQuestionResult == null) {
             message = "";
         } else if (userQuestionResult == currentQuestion.getGoodAnswer()) {
-            message = buttonValue + " Es la Bonne réponse";
-
-            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+            message = " Bonne réponse";
         } else {
-            message = buttonValue + " Es la Mauvaise réponse";
-
-            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+            message = " Mauvaise réponse";
         }
         // Affichage du message
         resultMessage.setText(message);
@@ -257,4 +259,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // Correspondance de la question en cours avec l'index du spinner sur la ligne sélectionnée
+
+        currentQuestionIndex = position;
+        // Affichage dans la console de la ligne sélectionnée
+        Log.d(TAG, parent.getItemAtPosition(position).toString());
+        // Puis on affiche la question dans le spinner
+        showQuestion();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
