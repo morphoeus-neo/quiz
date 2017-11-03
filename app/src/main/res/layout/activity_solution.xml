@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="app.m2i.quiz.SolutionActivity">
+
+    <TextView
+        android:id="@+id/goodAnswerResultLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fuckTitle"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/goodAnswerResultLabel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/goodAnswerResultLabel2"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/goodAnswerResultLabel3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/goodAnswerResultLabel3"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/returnButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/returnButton" />
+
+        <Button
+            android:id="@+id/validateData"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/validateSolutionButton"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@android:style/Widget.DeviceDefault.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -9,4 +9,7 @@
     <string name="forward_question">Forward</string>
     <string name="previous_question">Previous</string>
     <string name="questionRatio">.../...</string>
+    <string name="solutionButton">Solution</string>
+    <string name="fuckTitle">Ca marche</string>
+    <string name="previousPageButton">Page precedente</string>
 </resources>

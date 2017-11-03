@@ -1,11 +1,13 @@
 package app.m2i.quiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,12 +25,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
     // Définition de Constante // parcequ'elle est finale de classe // parcequ'elle est static
 
     private static final String TAG = "MainActivity";
+    private static final int SOLUTION_ACTIVITY = 1;
 
     // Définition des variables globales boutons
     private Button prevButton;
     private Button nextButton;
     private Button trueButton;
     private Button falseButton;
+    private Button solutionButton;
 
 
     // Définition des variables globales Text
@@ -51,11 +55,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
     // Définition du spinner
     private Spinner questionSpinner;
 
+    // Déclaration du chargement des solutions
+    private Intent intention;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Récupération des text
         questionTextView = findViewById(R.id.questionLabel);
@@ -67,6 +75,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
         falseButton = findViewById(R.id.falseButton);
         prevButton = findViewById((R.id.previousButton));
         nextButton = findViewById(R.id.forwardButton);
+        solutionButton = findViewById(R.id.solutionButton);
 
         //Référence au widget Spinner
         questionSpinner = (Spinner) findViewById(R.id.spinner);
@@ -79,6 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
         falseButton.setOnClickListener(this);
         prevButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
+        solutionButton.setOnClickListener(this);
 
         // Remplissage de la liste de questions
         questionList = new ArrayList<>();
@@ -89,6 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
         questionList.add(new Question("Est-ce que Guillaume passes prendre un café a la fin de sa garde  ???", true));
         questionList.add(new Question("Est-ce que Guillaume va manger des fillets de harangs ce midi ???", true));
         questionList.add(new Question("Est-ce que cette application c'est de la merde ???", true));
+
 
         // Instanciation de la classe TextToSpeetch
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -122,6 +133,28 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
 
     private void showQuestion() {
 
+        // Définition du Spinner
+        // Création de la liste des questions du spinner
+        String[] spinnerData = new String[questionList.size()];
+        for (int i = 0; i < questionList.size(); i++) {
+            // récupération de la question en cours dans la boucle
+            Question question = questionList.get(i);
+            String spinnerText = "Question" + (i + 1) + " ";
+            if (question.isAnswered()) {
+                spinnerText += "(répondu)";
+            }
+            spinnerData[i] = spinnerText;
+        }
+
+        // Création de l'arrayAdapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerData);
+        //Définition de la vue lorsque le spinner est ouvert
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // On Attache l'adapter au spinner
+        questionSpinner.setAdapter(adapter);
+        // permet de changer de question car sas cette ligne on est bloqué à la question 1
+        questionSpinner.setSelection(currentQuestionIndex);
+
         // On définit la question en cours grace a l'index de la question du tableau de question
         currentQuestion = questionList.get(currentQuestionIndex);
         questionTextView.setText(currentQuestion.getText());
@@ -153,6 +186,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
     public void onClick(View v) {
 
 
+
         if (v == falseButton) {
             checkAnswer(false);
         } else if (v == trueButton) {
@@ -161,6 +195,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
             goToPreviousQuestion();
         } else if (v == nextButton) {
             goToNextQuestion();
+        } else if (v == solutionButton) {
+            // Instanciation de la nouvelle intention
+            intention = new Intent(this.getBaseContext(), SolutionActivity.class);
+
+            //Transfert d'informations vers l'activité Solution
+
+            intention.putExtra("questionIndex", currentQuestionIndex);
+            intention.putExtra("questionAnswer", currentQuestion.getGoodAnswer());
+            intention.putExtra("questionAnswerTextValue", currentQuestion.getText());
+
+            startActivityForResult(intention, SOLUTION_ACTIVITY);
         }
     }
 
@@ -187,6 +232,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
 
 
     private void checkAnswer(boolean userAnswer) {
+
 
         currentQuestion.setUserAnswer(userAnswer);
         showQuestionResult();
@@ -273,5 +319,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode = SOLUTION_ACTIVITY) {
+
+        }
     }
 }

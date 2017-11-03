@@ -8,4 +8,11 @@
     <string name="forward_question">Suivant</string>
     <string name="previous_question">Precedent</string>
     <string name="questionRatio">.../...</string>
+    <string name="solutionButton">"Solution "</string>
+    <string name="fuckTitle">Ca marche </string>
+    <string name="previousPageButton">Page precedente</string>
+    <string name="returnButton">Retour</string>
+    <string name="goodAnswerResultLabel3">TextView</string>
+    <string name="goodAnswerResultLabel2">TextView</string>
+    <string name="validateSolutionButton">Valider</string>
 </resources>
