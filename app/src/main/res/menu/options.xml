@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/option_loadJson"
+        android:showAsAction="ifRoom"
+        android:title="Load JSON" />
+    <item
+        android:id="@+id/option_load_SQL"
+        android:showAsAction="ifRoom"
+        android:title="Load SQL" />
+</menu>
