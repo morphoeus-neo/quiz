@@ -15,4 +15,6 @@
     <string name="goodAnswerResultLabel3">TextView</string>
     <string name="goodAnswerResultLabel2">TextView</string>
     <string name="validateSolutionButton">Valider</string>
+    <string name="load_json">Load JSON</string>
+    <string name="load_sql">Load SQL</string>
 </resources>

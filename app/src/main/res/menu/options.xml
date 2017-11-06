@@ -3,10 +3,8 @@
 
     <item
         android:id="@+id/option_loadJson"
-        android:showAsAction="ifRoom"
-        android:title="Load JSON" />
+        android:title="@string/load_json" />
     <item
         android:id="@+id/option_load_SQL"
-        android:showAsAction="ifRoom"
-        android:title="Load SQL" />
+        android:title="@string/load_sql" />
 </menu>
