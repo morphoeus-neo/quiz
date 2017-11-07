@@ -96,4 +96,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         writableDb.delete("questions", "id=?", params);
         findAllQuestions();
     }
+
+    public void insert(String questionText, Boolean goodAnswer) {
+        ContentValues values = new ContentValues();
+        values.put("question_text", questionText);
+        values.put("goodAnswer", goodAnswer);
+        writableDb.insert("questions", null, values);
+    }
 }

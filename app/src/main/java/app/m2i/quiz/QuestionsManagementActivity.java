@@ -132,4 +132,13 @@ public class QuestionsManagementActivity extends Activity implements AdapterView
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (RESULT_OK == resultCode) {
+
+            loadQuestions();
+        }
+    }
 }
