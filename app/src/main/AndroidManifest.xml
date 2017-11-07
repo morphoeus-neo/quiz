@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SolutionActivity"></activity>
+        <activity android:name=".SolutionActivity" />
+        <activity android:name=".QuestionsManagementActivity" />
+        <activity android:name=".QuestionFormActivity"></activity>
     </application>
 
 </manifest>

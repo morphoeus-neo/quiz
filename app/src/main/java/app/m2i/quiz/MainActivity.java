@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import app.m2i.quiz.model.DatabaseHelper;
 import app.m2i.quiz.model.Question;
 
 
@@ -27,6 +29,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
 
     private static final String TAG = "MainActivity";
     private static final int SOLUTION_ACTIVITY = 1;
+    private static final int QUESTION_MANAGEMENT_ACTIVITY = 2;
+
 
     // Définition des variables globales boutons
     private Button prevButton;
@@ -187,7 +191,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
     public void onClick(View v) {
 
 
-
         if (v == falseButton) {
             checkAnswer(false);
         } else if (v == trueButton) {
@@ -335,8 +338,47 @@ public class MainActivity extends Activity implements View.OnClickListener, Adap
 
         getMenuInflater().inflate(R.menu.options, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.option_load_SQL:
+
+                Toast.makeText(getApplicationContext(),
+                        "J'ai sélectionné le bouton load Json",
+                        Toast.LENGTH_SHORT).show();
+
+                DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+                questionList = dbHelper.findAllQuestions();
+
+                currentQuestionIndex = 0;
+
+                showQuestion();
+
+                break;
+
+            case R.id.option_loadJson:
+
+                Toast.makeText(getApplicationContext(),
+                        "J'ai sélectionné le bouton load SQL",
+                        Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.option_AnswerActivity:
+                intention = new Intent(this.getBaseContext(), QuestionsManagementActivity.class);
+
+
+                intention.putExtra("questionAnswerTextValue", currentQuestion.getText());
+
+                startActivityForResult(intention, QUESTION_MANAGEMENT_ACTIVITY);
+
+                break;
+        }
+
+        return true;
+    }
 }

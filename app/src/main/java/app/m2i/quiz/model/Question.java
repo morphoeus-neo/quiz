@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Question {
 
     private String text;
-    private UUID id;
+    private Long id;
     private Boolean goodAnswer;
     private Boolean userAnswer;
 
@@ -21,7 +21,7 @@ public class Question {
 
 
     // constructeur complet
-    public Question(String text, UUID id, Boolean goodAnswer, Boolean userAnswer) {
+    public Question(String text, Long id, Boolean goodAnswer, Boolean userAnswer) {
         this.text = text;
         this.id = id;
         this.goodAnswer = goodAnswer;
@@ -38,7 +38,7 @@ public class Question {
         this.text = text;
         this.goodAnswer = goodAnswer;
         // Lorsque je fait appel a ce constructeur je dois retourner un UUID
-        this.id = UUID.randomUUID();
+        //this.id = UUID.randomUUID();
     }
 
     // Définition des guetteurs et Setteurs
@@ -47,11 +47,11 @@ public class Question {
         this.text = text;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

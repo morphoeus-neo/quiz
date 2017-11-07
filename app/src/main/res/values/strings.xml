@@ -17,4 +17,9 @@
     <string name="validateSolutionButton">Valider</string>
     <string name="load_json">Load JSON</string>
     <string name="load_sql">Load SQL</string>
+    <string name="gererlesquestions">Gérer les questions</string>
+    <string name="deleteQuestion">Delete Question</string>
+    <string name="modifyQuestion">Modify Question</string>
+    <string name="addQuestion">Add Question</string>
+    <string name="QuestionTextFormView">affichage question</string>
 </resources>
