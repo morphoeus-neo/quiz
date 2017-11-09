@@ -31,10 +31,7 @@ public class QuestionFormActivity extends Activity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_form);
 
-        Bundle params = this.getIntent().getExtras();
-        getExtraType = params.getString("doUpdate", "add");
-        getSelectedId = params.getString("questionAnswerId");
-        getQuestionText = params.getString("questionText");
+
 
 
         title = findViewById(R.id.titleForm);
@@ -48,10 +45,18 @@ public class QuestionFormActivity extends Activity implements View.OnClickListen
         cancelButton.setOnClickListener(this);
 
         if (Objects.equals(getExtraType, "update") && getSelectedId != null) {
+            Bundle params = this.getIntent().getExtras();
+            getExtraType = params.getString("doUpdate", "add");
+            getSelectedId = params.getString("questionAnswerId");
+            getQuestionText = params.getString("questionText");
+
+
             title.setText("UPDATE Question");
             questionTextForm.setText("Question d'origine : " + getQuestionText);
 
         } else {
+
+            questionTextForm.setVisibility(View.INVISIBLE);
             title.setText("ADD Question");
         }
 
