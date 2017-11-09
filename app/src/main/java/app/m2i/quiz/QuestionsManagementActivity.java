@@ -28,6 +28,7 @@ public class QuestionsManagementActivity extends Activity implements AdapterView
     private ListView listView;
 
     private Long questionId;
+    private String questionText;
     private Intent intention;
 
     @Override
@@ -49,6 +50,7 @@ public class QuestionsManagementActivity extends Activity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         questionId = questionList.get(position).getId();
+        questionText = questionList.get(position).getText();
 
         Toast.makeText(this, "L'id de la question est : " + String.valueOf(questionId), Toast.LENGTH_SHORT).show();
     }
@@ -88,7 +90,10 @@ public class QuestionsManagementActivity extends Activity implements AdapterView
         // Instanciation de la nouvelle intention
         intention = new Intent(this, QuestionFormActivity.class);
         intention.putExtra("questionAnswerId", String.valueOf(questionId.longValue()));
+        intention.putExtra("doUpdate", "update");
+        intention.putExtra("questionText", questionText);
         startActivityForResult(intention, QUESTION_FORM_ACTIVITY);
+
     }
 
     private void addQuestion() {

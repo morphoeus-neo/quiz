@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Question> questionList = new ArrayList<>();
         SQLiteDatabase db = readableDb;
         // Commande SQL
-        String sql = "SELECT id, question_text,goodAnswer FROM questions";
+        String sql = "SELECT id, question_text, goodAnswer FROM questions";
         // Execution de la commande
         Cursor cursor = db.rawQuery(sql, null);
         // Boucle sur le curseur pour remplir questionList
@@ -90,11 +90,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionList;
     }
 
+    public void findOneById(String questionId) {
+        String questionText = "";
+        SQLiteDatabase db = readableDb;
+        String sql = "SELECT id, question-text, goodAnswer FROM questions WHERE id=?";
+        db.execSQL(sql, new String[]{questionId});
+
+
+    }
+
 
     public void delete(Long questionId) {
         String[] params = {String.valueOf(questionId)};
         writableDb.delete("questions", "id=?", params);
         findAllQuestions();
+
+
+    }
+
+    public void modify(String questionId, String questionText, Boolean goodAnswer) {
+
+        ContentValues values = new ContentValues();
+        values.put("question_text", questionText);
+        values.put("goodAnswer", goodAnswer);
+        values.put("id", questionId);
+        writableDb.update("questions", values, "id=?", new String[]{questionId});
+
     }
 
     public void insert(String questionText, Boolean goodAnswer) {

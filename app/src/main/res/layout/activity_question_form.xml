@@ -8,6 +8,16 @@
     tools:context="app.m2i.quiz.QuestionFormActivity">
 
     <TextView
+        android:id="@+id/titleForm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:text="Titre"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/questionTextForm"
         android:layout_width="match_parent"
         android:layout_height="79dp"
